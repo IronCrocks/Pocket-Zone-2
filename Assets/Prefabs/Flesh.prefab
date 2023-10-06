@@ -302,7 +302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   speed: 1
-  rangeAlarm: 5
+  alarmRange: 5
 --- !u!114 &-2113483530975450029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,9 +316,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  attackRange: 2
-  attackRate: 3
-  attackPower: 1
+  _attackRange: 2
+  _attackRate: 0
+  _attackPower: 1
+  _attacksBeforeReload: 1
+  _maxAttacksBeforeReload: 1
+  _reloadTime: 3
 --- !u!114 &-138952885674147385
 MonoBehaviour:
   m_ObjectHideFlags: 0

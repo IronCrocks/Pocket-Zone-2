@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class CollectibleItem : MonoBehaviour
 {
-    public Item item;
+    [SerializeField]
+    private Item item;
 
-    public void Pickup()
+    public void Collect()
     {
-        InventoryManager.Instance.Add(item);
+        Managers.InventoryManager.Add(item);
         Destroy(gameObject);
     }
 
@@ -17,6 +18,6 @@ public class CollectibleItem : MonoBehaviour
             return;
         }
 
-        Pickup();
+        Collect();
     }
 }

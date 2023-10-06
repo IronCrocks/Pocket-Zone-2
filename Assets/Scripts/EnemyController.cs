@@ -3,8 +3,10 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     public Transform player;
-    public float speed = 2f;
-    public float rangeAlarm = 5;
+    [SerializeField]
+    private float speed = 2f;
+    [SerializeField]
+    private float alarmRange = 5;
 
     private Rigidbody2D _rigidbody;
     private Vector2 _movement;
@@ -35,7 +37,7 @@ public class EnemyController : MonoBehaviour
     {
         float distance = Vector3.Distance(transform.position, player.position);
 
-        if (distance > rangeAlarm)
+        if (distance > alarmRange)
         {
             return;
         }

@@ -1,77 +1,56 @@
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryManager : MonoBehaviour
+public class InventoryManager : MonoBehaviour, IDataHandler
 {
-    public static InventoryManager Instance;
-    public List<Item> Items = new List<Item>();
-    public Transform ItemContent;
-    public GameObject InventoryItemPrefab;
+    [SerializeField]
+    private Transform ItemContent;
+    [SerializeField]
+    private GameObject InventoryItemPrefab;
+
+    private ItemHolder _itemHolder;
+    private Dictionary<int, int> Items = new();
 
     private void Awake()
     {
-        Instance = this;
+        _itemHolder = GetComponent<ItemHolder>();
     }
 
     public void Add(Item item)
     {
-        var inventoryItem = Items.FirstOrDefault(p => p.id == item.id);
 
-        if (inventoryItem == null)
+        if (Items.ContainsKey(item.id))
         {
-            AddNewItem(item);
+            Items[item.id]++;
         }
         else
         {
-            //IncreaseCount(item);
+            Items.Add(item.id, 1);
         }
+
+        UpdateInventory();
+
     }
 
-    private void AddNewItem(Item item)
-    {
-        Items.Add(item);
+    public object GetData() => Items;
 
-        ShowItems();
-    }
-
-    private void IncreaseCount(Item item)
+    public void LoadData(object data)
     {
-        foreach (Transform transform in ItemContent)
+        if (data is Dictionary<int, int> items)
         {
-            var inventoryItem = transform.gameObject.GetComponent<InventoryItemController>();
-            if (inventoryItem.Item.id == item.id)
-            {
-                var itemCount = inventoryItem.transform.Find("ItemCount").GetComponent<TMP_Text>();
-
-                if (int.TryParse(itemCount.text, out int result))
-                {
-                    result++;
-                    itemCount.text = result.ToString();
-                }
-                break;
-            }
+            Items = items;
+            UpdateInventory();
         }
-        //var inventoryItems = ItemContent.gameObject.GetComponentsInChildren<ItemController>();
-        //var t = inventoryItems[0];
-        //int y = t.Item.id;
-        //var inventoryItem = inventoryItems.FirstOrDefault(p => p.Item.id == item.id);
-        //var itemCount = inventoryItem.transform.Find("ItemCount").GetComponent<TMP_Text>();
-
-        //if (int.TryParse(itemCount.text, out int result))
-        //{
-        //    itemCount.text = result++.ToString();
-        //}
     }
 
     public void Remove(Item item)
     {
-        Items.Remove(item);
+        Items.Remove(item.id);
     }
 
-    public void ShowItems()
+    public void UpdateInventory()
     {
         foreach (Transform transform in ItemContent)
         {
@@ -83,9 +62,16 @@ public class InventoryManager : MonoBehaviour
             var inventoryItem = Instantiate(InventoryItemPrefab, ItemContent);
             var itemIcon = inventoryItem.transform.Find("ItemIcon").GetComponent<Image>();
             var inventoryItemController = inventoryItem.GetComponent<InventoryItemController>();
+            var itemCount = inventoryItem.transform.Find("ItemCount").GetComponent<TMP_Text>();
 
-            itemIcon.sprite = item.icon;
-            inventoryItemController.Item = item;
+            var scriptableItem = _itemHolder.GetItemById(item.Key);
+
+            itemIcon.sprite = scriptableItem.icon;
+            inventoryItemController.Item = scriptableItem;
+            itemCount.text = item.Value.ToString();
+
+            bool isActive = item.Value != 1;
+            itemCount.gameObject.SetActive(isActive);
         }
     }
 }

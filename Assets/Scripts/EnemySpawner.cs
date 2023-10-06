@@ -4,20 +4,26 @@ using UnityEngine.Tilemaps;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject player;
-    public Camera worldCamera;
-    public Tilemap tilemap;
-    public int enemyCount;
-    public List<GameObject> enemyPrefabList;
+    [SerializeField]
+    private GameObject _player;
+    [SerializeField]
+    private ItemSpawner _itemSpawner;
+    [SerializeField]
+    private Camera _worldCamera;
+    [SerializeField]
+    private Tilemap _tilemap;
+    [SerializeField]
+    private int _enemyCount;
+    [SerializeField]
+    private List<GameObject> _enemyPrefabList;
 
     private BoundsInt _tilemapBounds;
 
     private void Awake()
     {
-        _tilemapBounds = tilemap.cellBounds;
+        _tilemapBounds = _tilemap.cellBounds;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         SpawnEnemies();
@@ -25,7 +31,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemies()
     {
-        for (int i = 0; i < enemyCount; i++)
+        for (int i = 0; i < _enemyCount; i++)
         {
             var enemy = SpawnEnemy();
             SetEnemyTarget(enemy);
@@ -35,8 +41,8 @@ public class EnemySpawner : MonoBehaviour
     private GameObject SpawnEnemy()
     {
         var position = GetSpawnPosition();
-        int enemyPrefabIndex = Random.Range(0, enemyPrefabList.Count);
-        var enemy = Instantiate(enemyPrefabList[enemyPrefabIndex], position, Quaternion.identity);
+        int enemyPrefabIndex = Random.Range(0, _enemyPrefabList.Count);
+        var enemy = Instantiate(_enemyPrefabList[enemyPrefabIndex], position, Quaternion.identity);
 
         return enemy;
     }
@@ -53,10 +59,13 @@ public class EnemySpawner : MonoBehaviour
     private void SetEnemyTarget(GameObject enemy)
     {
         var enemyController = enemy.GetComponent<EnemyController>();
-        enemyController.player = player.transform;
         var weapon = enemy.GetComponent<Weapon>();
-        weapon.target = player;
         var canvas = enemy.GetComponentInChildren<Canvas>();
-        canvas.worldCamera = worldCamera;
+        var lootable = enemy.GetComponent<LootableObject>();
+
+        enemyController.player = _player.transform;
+        weapon.target = _player;
+        canvas.worldCamera = _worldCamera;
+        lootable.ItemSpawner = _itemSpawner;
     }
 }

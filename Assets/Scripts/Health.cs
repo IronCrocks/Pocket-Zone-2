@@ -5,7 +5,9 @@ public class Health : MonoBehaviour
 {
     public int maxHealth;
     public int health;
-    public Slider healthBar;
+
+    [SerializeField]
+    private Slider healthBar;
 
     private void Awake()
     {

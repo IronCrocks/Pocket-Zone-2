@@ -2709,7 +2709,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -179.005, y: 176.00502}
+  m_AnchoredPosition: {x: -179.005, y: 176.005}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &587571347
@@ -2971,10 +2971,10 @@ RectTransform:
   m_Father: {fileID: 2014297594}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 768.16, y: -345.18}
-  m_SizeDelta: {x: -1536.31, y: -690.35}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -191.84003, y: 150.32}
+  m_SizeDelta: {x: 383.68994, y: 300.65002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &726507463
 MonoBehaviour:
@@ -20740,7 +20740,7 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
